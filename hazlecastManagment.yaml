@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: management-center
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: management-center
+  template:
+    metadata:
+      labels:
+        app: management-center
+    spec:
+      containers:
+      - name: hazelcast
+        image: hazelcast/management-center
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: manage-service
+spec:
+  type: NodePort
+  selector:
+    app: management-center
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+
